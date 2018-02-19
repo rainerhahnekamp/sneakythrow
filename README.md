@@ -1,7 +1,8 @@
-#SneakyThrow
+# SneakyThrow
+
 SneakyThrow is a Java library to ignore checked exceptions. It does that by wrapping an `Exception` into a `RuntimeException`.
 
-##Usage
+## Usage
 
 Without SneakyThrow:
 ```java
@@ -16,7 +17,7 @@ With SneakyThrow:
 ```java
 URL url = sneak(() -> new URL("https://www.hahnekamp.com"));
 ```
-##Usage with Java 8 Streams
+## Usage with Java 8 Streams
 ```java
 private URL createURL(String url) throws MalformedURLException {
   return new URL(url);
@@ -45,7 +46,8 @@ Stream
   .collect(Collectors.toList());
 ```
 The static method `sneaked` wraps each function, that has the same signature as a functional interface (java.util.functional).
-##How it works
+## How it works
+
 We make heavy usage of the [ThrowingFunction](https://github.com/pivovarit/ThrowingFunction) library. It provides functional interfaces equivalent to the official ones of `java.util.functional`, but has two major extensions:
 1. Its functional interfaces extend the official ones. Therefore they can be used within Java 8 Streams.
 2. They are throwing exceptions. This gives us the possibility to write lambdas throwing checked exceptions.
