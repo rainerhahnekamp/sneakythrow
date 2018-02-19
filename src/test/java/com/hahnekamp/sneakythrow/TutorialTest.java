@@ -1,6 +1,5 @@
 package com.hahnekamp.sneakythrow;
 
-
 import static com.hahnekamp.sneakythrow.Sneaky.sneak;
 import static com.hahnekamp.sneakythrow.Sneaky.sneaked;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,14 +23,14 @@ public class TutorialTest {
   public void streamUsage() {
     List<URL> urls = Stream
         .of("https://www.hahnekamp.com", "https://www.austria.info")
-        .map(sneaked(this::createURL))
+        .map(sneaked(this::createUrl))
         .collect(Collectors.toList());
 
     assertEquals("www.hahnekamp.com", urls.get(0).getHost());
     assertEquals("www.austria.info", urls.get(1).getHost());
   }
 
-  private URL createURL(String url) throws MalformedURLException {
+  private URL createUrl(String url) throws MalformedURLException {
     return new URL(url);
   }
 

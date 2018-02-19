@@ -22,12 +22,12 @@ class SneakyTest {
 
     List<URL> urls = Stream
         .of("www.hahnekamp.com", "www.orf.at")
-        .map(sneaked(this::createURL))
+        .map(sneaked(this::createUrl))
         .collect(Collectors.toList());
 
   }
 
-  private URL createURL(String url) throws MalformedURLException {
+  private URL createUrl(String url) throws MalformedURLException {
     return new URL("https://www.hahnekamp.com");
   }
 
