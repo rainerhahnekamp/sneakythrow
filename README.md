@@ -1,6 +1,7 @@
 # SneakyThrow
 
 [![Build Status](https://travis-ci.org/rainerhahnekamp/sneakythrow.svg?branch=master)](https://travis-ci.org/rainerhahnekamp/sneakythrow.svg?branch=master)
+[![codecov](https://codecov.io/gh/rainerhahnekamp/sneakythrow/branch/master/graph/badge.svg)](https://codecov.io/gh/rainerhahnekamp/sneakythrow)
 
 SneakyThrow is a Java library to ignore checked exceptions. It does that by wrapping an `Exception` into a `RuntimeException`.
 
