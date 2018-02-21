@@ -1,4 +1,4 @@
-package com.hahnekamp.sneakythrow;
+package com.rainerhahnekamp.sneakythrow;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.hahnekamp</groupId>
+  <groupId>com.rainerhahnekamp</groupId>
   <artifactId>sneakythrow</artifactId>
   <version>0.9</version>
 
@@ -16,7 +16,6 @@
       <name>Rainer Hahnekamp</name>
       <email>rainer.hahnekamp@gmail.com</email>
       <url>https://www.rainerhahnekamp.com/</url>
-      <id>gpiwowarek</id>
     </developer>
   </developers>
 

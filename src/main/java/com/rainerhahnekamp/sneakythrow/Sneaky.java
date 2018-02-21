@@ -1,4 +1,4 @@
-package com.hahnekamp.sneakythrow;
+package com.rainerhahnekamp.sneakythrow;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;

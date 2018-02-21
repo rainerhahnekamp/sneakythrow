@@ -1,7 +1,7 @@
-package com.hahnekamp.sneakythrow;
+package com.rainerhahnekamp.sneakythrow;
 
-import static com.hahnekamp.sneakythrow.Sneaky.sneaked;
-import static com.hahnekamp.sneakythrow.TestHelper.assertThrowsWithCause;
+import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
+import static com.rainerhahnekamp.sneakythrow.TestHelper.assertThrowsWithCause;
 import static java.lang.Integer.parseInt;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
