@@ -52,10 +52,10 @@ Stream
 The static method `sneaked` wraps each function, that has the same signature as a functional interface (java.util.functional).
 ## How it works
 
-We make heavy usage of the [ThrowingFunction](https://github.com/pivovarit/ThrowingFunction) library. It provides functional interfaces equivalent to the official ones of `java.util.functional`, but has two major extensions:
-1. Its functional interfaces extend the official ones. Therefore they can be used within Java 8 Streams.
-2. They are throwing exceptions. This gives us the possibility to write lambdas throwing checked exceptions.
+This project is heavily influenced by [ThrowingFunction](https://github.com/pivovarit/ThrowingFunction). 
 
-Both `sneak` and `sneaked` wrap the passed functional interface into a try/catch clause. By that, they can return a `java.util.functional` interface. In the case of `sneak`, execution and the return of the result is done immediately. 
+In SneakyThrow, each functional interface, defined in `java.util.function`, has an equivalent one with the same signature. The only difference is, that these "Sneaky Functional Interfaces" throw exceptions. This gives us the possibility to write lambdas or similar code that also throws exceptions.
+
+Both `sneak` and `sneaked` wrap the passed "Sneaky Functional Interfaces" into a try/catch clause and return the equivalent `java.util.function` interface. In the case of `sneak`, execution and the return of the result is done immediately. 
 
 
