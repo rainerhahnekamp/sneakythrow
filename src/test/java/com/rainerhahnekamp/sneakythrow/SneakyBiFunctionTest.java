@@ -26,42 +26,36 @@ package com.rainerhahnekamp.sneakythrow;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
 import static com.rainerhahnekamp.sneakythrow.TestHelper.assertThrowsWithCause;
+import static java.lang.Integer.parseInt;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Consumer;
+import java.util.function.BiFunction;
 
 import org.junit.jupiter.api.Test;
 
-public class ConsumerTest {
+public class SneakyBiFunctionTest {
   @Test
   public void withoutException() {
-    Consumer<List<Integer>> consumer = sneaked(
-        (List<Integer> list) -> {
-          list.add(5);
-        }
-    );
-
-    List<Integer> list = new ArrayList<>();
-    consumer.accept(list);
-
-    assertEquals(1, list.size());
+    assertEquals(500, execute(
+        sneaked((Integer a, String b) -> parseInt(b) * a),
+        5, "100"
+    ));
   }
 
   @Test
   public void withException() {
-    Consumer<List<Integer>> consumer = sneaked(
-        (List<Integer> list) -> {
-          list.add(5);
-        }
-    );
-
     assertThrowsWithCause(
-        UnsupportedOperationException.class,
-        () -> consumer.accept(Collections.emptyList())
+        NumberFormatException.class,
+        () -> execute(
+            sneaked((Integer a, String b) -> parseInt(b) * a),
+            5, "foo"
+        )
     );
   }
-}
 
+  private int execute(
+      BiFunction<Integer, String, Integer> biFunction,
+      Integer a, String b) {
+    return biFunction.apply(a, b);
+  }
+}

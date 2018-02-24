@@ -1,36 +1,86 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2018-present, Rainer Hahnekamp
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.rainerhahnekamp.sneakythrow;
+
+import com.rainerhahnekamp.sneakythrow.functional.SneakyBiConsumer;
+import com.rainerhahnekamp.sneakythrow.functional.SneakyBiFunction;
+import com.rainerhahnekamp.sneakythrow.functional.SneakyBiPredicate;
+import com.rainerhahnekamp.sneakythrow.functional.SneakyBinaryOperator;
+import com.rainerhahnekamp.sneakythrow.functional.SneakyConsumer;
+import com.rainerhahnekamp.sneakythrow.functional.SneakyFunction;
+import com.rainerhahnekamp.sneakythrow.functional.SneakyPredicate;
+import com.rainerhahnekamp.sneakythrow.functional.SneakyRunnable;
+import com.rainerhahnekamp.sneakythrow.functional.SneakySupplier;
+import com.rainerhahnekamp.sneakythrow.functional.SneakyUnaryOperator;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 import java.util.function.BinaryOperator;
-import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
-import pl.touk.throwing.ThrowingBiConsumer;
-import pl.touk.throwing.ThrowingBiFunction;
-import pl.touk.throwing.ThrowingBiPredicate;
-import pl.touk.throwing.ThrowingBinaryOperator;
-import pl.touk.throwing.ThrowingConsumer;
-import pl.touk.throwing.ThrowingFunction;
-import pl.touk.throwing.ThrowingPredicate;
-import pl.touk.throwing.ThrowingRunnable;
-import pl.touk.throwing.ThrowingSupplier;
-import pl.touk.throwing.ThrowingUnaryOperator;
-
+/**
+ * This class provides static methods to wrap checked exceptions into
+ * a RuntimeException of type {@link SneakyException}.
+ *
+ * <p>A function or lambda that throws an exception can be executed via
+ * {@link #sneak(SneakySupplier)} method. For example:<pre>
+ *     URL austriaInfo = sneak(() -&gt; new URL("https://www.austria.info");}</pre>
+ *
+ * <p>If a function should only be wrapped, then the {@link #sneaked(SneakyRunnable)} &amp;
+ * overloads can be used:<pre>
+ *     public void createUrls() {
+ *         Stream.of("https://www.austria.info")
+ *             .map(sneaked(this::toURL))
+ *             .collect(Collectors.toList());
+ *     }
+ *
+ *     private URL toURL(String url) throws MalformedURLException {
+ *         return new URL(url);
+ *     }
+ * </pre>
+ *
+ * @author Rainer Hahnekamp {@literal <rainer.hahnekamp@gmail.com>}
+ */
 public class Sneaky {
-  public static <T> T sneak(ThrowingSupplier<T, Exception> supplier) {
+  public static <T> T sneak(SneakySupplier<T> supplier) {
     return sneaked(supplier).get();
   }
 
   /**
-   * Wraps all exceptions of a BiConsumer lambda to SneakyException.
+   * Wraps all exceptions of a BiConsumer functional interface into a SneakyException.
+   * @param biConsumer BiConsumer that can throw an exception
+   * @param <T> type of first argument
+   * @param <U> type of the second argument
+   * @return a BiConsumer as defined in java.util.function
    */
-  public static <T, U> BiConsumer<T, U> sneaked(ThrowingBiConsumer<T, U, Exception> biConsumer) {
+  public static <T, U> BiConsumer<T, U> sneaked(SneakyBiConsumer<T, U> biConsumer) {
     return (t, u) -> {
       try {
         biConsumer.accept(t, u);
@@ -42,9 +92,13 @@ public class Sneaky {
 
   /**
    * Wraps all exceptions of a BiFunction lambda to SneakyException.
+   * @param biFunction BiFunction that can throw an exception
+   * @param <T> type of first argument
+   * @param <U> type of second argument
+   * @param <R> return type of biFunction
+   * @return a BiFunction as defined in java.util.function
    */
-  public static <T, U, R> BiFunction<T, U, R> sneaked(
-      ThrowingBiFunction<T, U, R, Exception> biFunction) {
+  public static <T, U, R> BiFunction<T, U, R> sneaked(SneakyBiFunction<T, U, R> biFunction) {
     return (t, u) -> {
       try {
         return biFunction.apply(t, u);
@@ -56,9 +110,11 @@ public class Sneaky {
 
   /**
    * Wraps all exceptions of a BinaryOperator lambda to SneakyException.
+   * @param binaryOperator BinaryOperator that can throw an exception
+   * @param <T> type of the two arguments and the return type of the binaryOperator
+   * @return a BinaryOperator as defined in java.util.function
    */
-  public static <T> BinaryOperator<T> sneaked(
-      ThrowingBinaryOperator<T, Exception> binaryOperator) {
+  public static <T> BinaryOperator<T> sneaked(SneakyBinaryOperator<T> binaryOperator) {
     return (t1, t2) -> {
       try {
         return binaryOperator.apply(t1, t2);
@@ -70,9 +126,13 @@ public class Sneaky {
 
   /**
    * Wraps all exceptions of a BiPredicate lambda to SneakyException.
+   * @param biPredicate BiPredicate that can throw an exception
+   * @param <T> type of first argument
+   * @param <U> type of second argument
+   * @return a BiPredicate as defined in java.util.function
    */
   public static <T, U> BiPredicate<T, U> sneaked(
-      ThrowingBiPredicate<T, U, Exception> biPredicate) {
+      SneakyBiPredicate<T, U> biPredicate) {
     return (t, u) -> {
       try {
         return biPredicate.test(t, u);
@@ -84,8 +144,11 @@ public class Sneaky {
 
   /**
    * Wraps all exceptions of a Consumer lambda to SneakyException.
+   * @param consumer Consumer that can throw an exception
+   * @param <T> type of first argument
+   * @return a Consumer as defined in java.util.function
    */
-  public static <T> Consumer<T> sneaked(ThrowingConsumer<T, Exception> consumer) {
+  public static <T> Consumer<T> sneaked(SneakyConsumer<T> consumer) {
     return t -> {
       try {
         consumer.accept(t);
@@ -97,8 +160,12 @@ public class Sneaky {
 
   /**
    * Wraps all exceptions of a Function lambda to SneakyException.
+   * @param function Function that can throw an exception
+   * @param <T> type of first argument
+   * @param <R> type of the second argument
+   * @return a Function as defined in java.util.function
    */
-  public static <T, R> Function<T, R> sneaked(ThrowingFunction<T, R, Exception> function) {
+  public static <T, R> Function<T, R> sneaked(SneakyFunction<T, R> function) {
     return t -> {
       try {
         return function.apply(t);
@@ -110,8 +177,11 @@ public class Sneaky {
 
   /**
    * Wraps all exceptions of a Predicate lambda to SneakyException.
+   * @param predicate Predicate that can throw an exception
+   * @param <T> type of first argument
+   * @return a Predicate as defined in java.util.function
    */
-  public static <T> Predicate<T> sneaked(ThrowingPredicate<T, Exception> predicate) {
+  public static <T> Predicate<T> sneaked(SneakyPredicate<T> predicate) {
     return t -> {
       try {
         return predicate.test(t);
@@ -123,8 +193,10 @@ public class Sneaky {
 
   /**
    * Wraps all exceptions of a Runnable lambda to SneakyException.
+   * @param runnable Runnable that can throw an exception
+   * @return a Runnable as defined in java.util.function
    */
-  public static Runnable sneaked(ThrowingRunnable<Exception> runnable) {
+  public static Runnable sneaked(SneakyRunnable runnable) {
     return () -> {
       try {
         runnable.run();
@@ -136,8 +208,11 @@ public class Sneaky {
 
   /**
    * Wraps all exceptions of a Supplier lambda to SneakyException.
+   * @param supplier Supplier that can throw an exception
+   * @param <T> type of supplier's return value
+   * @return a Supplier as defined in java.util.function
    */
-  public static <T> Supplier<T> sneaked(ThrowingSupplier<T, Exception> supplier) {
+  public static <T> Supplier<T> sneaked(SneakySupplier<T> supplier) {
     return () -> {
       try {
         return supplier.get();
@@ -149,8 +224,11 @@ public class Sneaky {
 
   /**
    * Wraps all exceptions of a UnaryOperator lambda to SneakyException.
+   * @param unaryOperator UnaryOperator that can throw an exception
+   * @param <T> type of unaryOperator's argument and returned value
+   * @return a UnaryOperator as defined in java.util.function
    */
-  public static <T> UnaryOperator<T> sneaked(ThrowingUnaryOperator<T, Exception> unaryOperator) {
+  public static <T> UnaryOperator<T> sneaked(SneakyUnaryOperator<T> unaryOperator) {
     return t -> {
       try {
         return unaryOperator.apply(t);
