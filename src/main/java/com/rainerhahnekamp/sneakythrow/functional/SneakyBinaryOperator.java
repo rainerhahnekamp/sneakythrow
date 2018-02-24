@@ -25,6 +25,5 @@
 package com.rainerhahnekamp.sneakythrow.functional;
 
 @FunctionalInterface
-public interface SneakyBinaryOperator<T> {
-  T apply(T t1, T t2);
+public interface SneakyBinaryOperator<T> extends SneakyBiFunction<T, T, T> {
 }

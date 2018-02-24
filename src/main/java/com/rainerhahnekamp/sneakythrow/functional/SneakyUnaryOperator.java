@@ -25,6 +25,5 @@
 package com.rainerhahnekamp.sneakythrow.functional;
 
 @FunctionalInterface
-public interface SneakyUnaryOperator<T> {
-  T apply(T t) throws Exception;
+public interface SneakyUnaryOperator<T> extends SneakyFunction<T, T> {
 }
