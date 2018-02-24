@@ -4,7 +4,15 @@
 [![Coverage Status](https://coveralls.io/repos/github/rainerhahnekamp/sneakythrow/badge.svg?branch=master)](https://coveralls.io/github/rainerhahnekamp/sneakythrow?branch=master)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
-SneakyThrow is a Java library to ignore checked exceptions. It does that by wrapping an `Exception` into a `RuntimeException`.
+SneakyThrow is a Java library to ignore checked exceptions. It does that by wrapping an `Exception` into a `RuntimeException`. You can integrate it using maven:
+
+```xml
+<dependency>
+  <groupId>com.rainerhahnekamp</groupId>
+  <artifactId>sneakythrow</artifactId>
+  <version>0.9.0</version>
+</dependency>
+```
 
 ## Usage
 
