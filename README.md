@@ -11,7 +11,7 @@ SneakyThrow is a Java library to ignore checked exceptions. It does that by wrap
 <dependency>
   <groupId>com.rainerhahnekamp</groupId>
   <artifactId>sneakythrow</artifactId>
-  <version>0.9.0</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 
@@ -59,6 +59,8 @@ Stream
   .collect(Collectors.toList());
 ```
 The static method `sneaked` wraps each function, that has the same signature as a functional interface (java.util.functional).
+
+**Please note the difference in `sneak` and `sneaked`.**
 ## How it works
 
 This project is heavily influenced by [ThrowingFunction](https://github.com/pivovarit/ThrowingFunction). 
