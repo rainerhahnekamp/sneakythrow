@@ -61,7 +61,7 @@ Stream
 ```
 The static method `sneaked` wraps each function, that has the same signature as a functional interface (java.util.functional).
 
-**Please note the difference in `sneak` and `sneaked`.**
+**Please note the difference between `sneak` and `sneaked`.**
 ## How it works
 
 This project is heavily influenced by [ThrowingFunction](https://github.com/pivovarit/ThrowingFunction). 
