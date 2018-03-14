@@ -16,6 +16,9 @@ SneakyThrow is a Java library to ignore checked exceptions. It does that by wrap
 </dependency>
 ```
 
+![SneakyThrow Usage GIF](https://github.com/rainerhahnekamp/sneakythrow/blob/master/ezgif-3-db5218262c.gif)
+
+
 ## Usage
 
 Without SneakyThrow:
