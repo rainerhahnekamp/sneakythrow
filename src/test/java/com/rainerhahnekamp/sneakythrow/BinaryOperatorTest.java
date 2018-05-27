@@ -25,9 +25,8 @@
 package com.rainerhahnekamp.sneakythrow;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
-import static com.rainerhahnekamp.sneakythrow.TestHelper.assertThrowsWithCause;
-import static java.lang.Integer.parseInt;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.function.BinaryOperator;
 
@@ -44,7 +43,7 @@ public class BinaryOperatorTest {
 
   @Test
   public void withException() {
-    assertThrowsWithCause(
+    assertThrows(
         ArithmeticException.class,
         () -> execute(
             sneaked((Integer a, Integer b) -> a / b),

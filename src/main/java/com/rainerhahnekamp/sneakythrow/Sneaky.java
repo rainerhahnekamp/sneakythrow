@@ -74,7 +74,7 @@ public class Sneaky {
   }
 
   /**
-   * Wraps all exceptions of a BiConsumer functional interface into a SneakyException.
+   * Sneaky throws a BiConsumer lambda.
    * @param biConsumer BiConsumer that can throw an exception
    * @param <T> type of first argument
    * @param <U> type of the second argument
@@ -85,13 +85,13 @@ public class Sneaky {
       try {
         biConsumer.accept(t, u);
       } catch (Exception exception) {
-        throw new SneakyException(exception);
+        rethrow(exception);
       }
     };
   }
 
   /**
-   * Wraps all exceptions of a BiFunction lambda to SneakyException.
+   * Sneaky throws a BiFunction lambda.
    * @param biFunction BiFunction that can throw an exception
    * @param <T> type of first argument
    * @param <U> type of second argument
@@ -103,13 +103,14 @@ public class Sneaky {
       try {
         return biFunction.apply(t, u);
       } catch (Exception exception) {
-        throw new SneakyException(exception);
+        rethrow(exception);
+        return null;
       }
     };
   }
 
   /**
-   * Wraps all exceptions of a BinaryOperator lambda to SneakyException.
+   * Sneaky throws a BinaryOperator lambda.
    * @param binaryOperator BinaryOperator that can throw an exception
    * @param <T> type of the two arguments and the return type of the binaryOperator
    * @return a BinaryOperator as defined in java.util.function
@@ -119,13 +120,14 @@ public class Sneaky {
       try {
         return binaryOperator.apply(t1, t2);
       } catch (Exception exception) {
-        throw new SneakyException(exception);
+        rethrow(exception);
+        return null;
       }
     };
   }
 
   /**
-   * Wraps all exceptions of a BiPredicate lambda to SneakyException.
+   * Sneaky throws a BiPredicate lambda.
    * @param biPredicate BiPredicate that can throw an exception
    * @param <T> type of first argument
    * @param <U> type of second argument
@@ -137,13 +139,14 @@ public class Sneaky {
       try {
         return biPredicate.test(t, u);
       } catch (Exception exception) {
-        throw new SneakyException(exception);
+        rethrow(exception);
+        return false;
       }
     };
   }
 
   /**
-   * Wraps all exceptions of a Consumer lambda to SneakyException.
+   * Sneaky throws a Consumer lambda.
    * @param consumer Consumer that can throw an exception
    * @param <T> type of first argument
    * @return a Consumer as defined in java.util.function
@@ -153,13 +156,13 @@ public class Sneaky {
       try {
         consumer.accept(t);
       } catch (Exception exception) {
-        throw new SneakyException(exception);
+        rethrow(exception);
       }
     };
   }
 
   /**
-   * Wraps all exceptions of a Function lambda to SneakyException.
+   * Sneaky throws a Function lambda.
    * @param function Function that can throw an exception
    * @param <T> type of first argument
    * @param <R> type of the second argument
@@ -170,13 +173,14 @@ public class Sneaky {
       try {
         return function.apply(t);
       } catch (Exception exception) {
-        throw new SneakyException(exception);
+        rethrow(exception);
+        return null;
       }
     };
   }
 
   /**
-   * Wraps all exceptions of a Predicate lambda to SneakyException.
+   * Sneaky throws a Predicate lambda.
    * @param predicate Predicate that can throw an exception
    * @param <T> type of first argument
    * @return a Predicate as defined in java.util.function
@@ -186,13 +190,14 @@ public class Sneaky {
       try {
         return predicate.test(t);
       } catch (Exception exception) {
-        throw new SneakyException(exception);
+        rethrow(exception);
+        return false;
       }
     };
   }
 
   /**
-   * Wraps all exceptions of a Runnable lambda to SneakyException.
+   * Sneaky throws a Runnable lambda.
    * @param runnable Runnable that can throw an exception
    * @return a Runnable as defined in java.util.function
    */
@@ -201,13 +206,13 @@ public class Sneaky {
       try {
         runnable.run();
       } catch (Exception exception) {
-        throw new SneakyException(exception);
+        rethrow(exception);
       }
     };
   }
 
   /**
-   * Wraps all exceptions of a Supplier lambda to SneakyException.
+   * Sneaky throws a Supplier lambda.
    * @param supplier Supplier that can throw an exception
    * @param <T> type of supplier's return value
    * @return a Supplier as defined in java.util.function
@@ -217,13 +222,14 @@ public class Sneaky {
       try {
         return supplier.get();
       } catch (Exception exception) {
-        throw new SneakyException(exception);
+        rethrow(exception);
+        return null;
       }
     };
   }
 
   /**
-   * Wraps all exceptions of a UnaryOperator lambda to SneakyException.
+   * Sneaky throws a UnaryOperator lambda.
    * @param unaryOperator UnaryOperator that can throw an exception
    * @param <T> type of unaryOperator's argument and returned value
    * @return a UnaryOperator as defined in java.util.function
@@ -233,8 +239,14 @@ public class Sneaky {
       try {
         return unaryOperator.apply(t);
       } catch (Exception exception) {
-        throw new SneakyException(exception);
+        rethrow(exception);
+        return null;
       }
     };
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T extends Throwable> void rethrow(Throwable t) throws T {
+    throw (T) t;
   }
 }
