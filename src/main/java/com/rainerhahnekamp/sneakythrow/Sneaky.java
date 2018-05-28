@@ -46,8 +46,8 @@ import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 /**
- * This class provides static methods to wrap checked exceptions into
- * a RuntimeException of type {@link SneakyException}.
+ * Code that throws checked exceptions can be executed with the static methods of this
+ * class without catching or throwing them.
  *
  * <p>A function or lambda that throws an exception can be executed via
  * {@link #sneak(SneakySupplier)} method. For example:<pre>
@@ -85,7 +85,7 @@ public class Sneaky {
       try {
         biConsumer.accept(t, u);
       } catch (Exception exception) {
-        rethrow(exception);
+        throwUnchecked(exception);
       }
     };
   }
@@ -103,7 +103,7 @@ public class Sneaky {
       try {
         return biFunction.apply(t, u);
       } catch (Exception exception) {
-        rethrow(exception);
+        throwUnchecked(exception);
         return null;
       }
     };
@@ -120,7 +120,7 @@ public class Sneaky {
       try {
         return binaryOperator.apply(t1, t2);
       } catch (Exception exception) {
-        rethrow(exception);
+        throwUnchecked(exception);
         return null;
       }
     };
@@ -139,7 +139,7 @@ public class Sneaky {
       try {
         return biPredicate.test(t, u);
       } catch (Exception exception) {
-        rethrow(exception);
+        throwUnchecked(exception);
         return false;
       }
     };
@@ -156,7 +156,7 @@ public class Sneaky {
       try {
         consumer.accept(t);
       } catch (Exception exception) {
-        rethrow(exception);
+        throwUnchecked(exception);
       }
     };
   }
@@ -173,7 +173,7 @@ public class Sneaky {
       try {
         return function.apply(t);
       } catch (Exception exception) {
-        rethrow(exception);
+        throwUnchecked(exception);
         return null;
       }
     };
@@ -190,7 +190,7 @@ public class Sneaky {
       try {
         return predicate.test(t);
       } catch (Exception exception) {
-        rethrow(exception);
+        throwUnchecked(exception);
         return false;
       }
     };
@@ -206,7 +206,7 @@ public class Sneaky {
       try {
         runnable.run();
       } catch (Exception exception) {
-        rethrow(exception);
+        throwUnchecked(exception);
       }
     };
   }
@@ -222,7 +222,7 @@ public class Sneaky {
       try {
         return supplier.get();
       } catch (Exception exception) {
-        rethrow(exception);
+        throwUnchecked(exception);
         return null;
       }
     };
@@ -239,14 +239,17 @@ public class Sneaky {
       try {
         return unaryOperator.apply(t);
       } catch (Exception exception) {
-        rethrow(exception);
+        throwUnchecked(exception);
         return null;
       }
     };
   }
 
+  /**
+   * as described in https://stackoverflow.com/questions/31316581/a-peculiar-feature-of-exception-type-inference-in-java-8.
+   */
   @SuppressWarnings("unchecked")
-  public static <T extends Throwable> void rethrow(Throwable t) throws T {
+  private static <T extends Throwable> void throwUnchecked(Throwable t) throws T {
     throw (T) t;
   }
 }
