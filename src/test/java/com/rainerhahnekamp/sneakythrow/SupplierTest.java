@@ -25,8 +25,8 @@
 package com.rainerhahnekamp.sneakythrow;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
-import static com.rainerhahnekamp.sneakythrow.TestHelper.assertThrowsWithCause;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.function.Supplier;
 
@@ -42,7 +42,7 @@ public class SupplierTest {
   @Test
   public void withException() {
     Supplier<Integer> supplier = sneaked(() -> 5 / 0);
-    assertThrowsWithCause(
+    assertThrows(
         ArithmeticException.class,
         () -> supplier.get()
     );

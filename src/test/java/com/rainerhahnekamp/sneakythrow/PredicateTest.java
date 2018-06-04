@@ -25,8 +25,8 @@
 package com.rainerhahnekamp.sneakythrow;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
-import static com.rainerhahnekamp.sneakythrow.TestHelper.assertThrowsWithCause;
 import static java.lang.Integer.parseInt;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.function.Predicate;
@@ -47,7 +47,7 @@ public class PredicateTest {
     Predicate<String> predicate =
         sneaked((String a) -> 2 == parseInt(a));
 
-    assertThrowsWithCause(
+    assertThrows(
         NumberFormatException.class,
         () -> predicate.test("foo")
     );

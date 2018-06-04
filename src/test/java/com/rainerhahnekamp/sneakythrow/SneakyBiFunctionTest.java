@@ -25,9 +25,9 @@
 package com.rainerhahnekamp.sneakythrow;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
-import static com.rainerhahnekamp.sneakythrow.TestHelper.assertThrowsWithCause;
 import static java.lang.Integer.parseInt;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.function.BiFunction;
 
@@ -44,7 +44,7 @@ public class SneakyBiFunctionTest {
 
   @Test
   public void withException() {
-    assertThrowsWithCause(
+    assertThrows(
         NumberFormatException.class,
         () -> execute(
             sneaked((Integer a, String b) -> parseInt(b) * a),

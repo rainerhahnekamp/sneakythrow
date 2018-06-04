@@ -24,13 +24,11 @@
 
 package com.rainerhahnekamp.sneakythrow;
 
-import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
-import static com.rainerhahnekamp.sneakythrow.TestHelper.assertThrowsWithCause;
 import static java.lang.Integer.parseInt;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
@@ -48,7 +46,7 @@ public class FunctionTest {
     Function<String, Integer> function =
         sneaked((String b) -> parseInt(b) * 2);
 
-    assertThrowsWithCause(
+    assertThrows(
         NumberFormatException.class,
         () -> function.apply("foo")
     );

@@ -25,8 +25,8 @@
 package com.rainerhahnekamp.sneakythrow;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
-import static com.rainerhahnekamp.sneakythrow.TestHelper.assertThrowsWithCause;
 import static java.lang.Integer.parseInt;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.function.BiPredicate;
@@ -43,7 +43,7 @@ public class BiPredicateTest {
 
   @Test
   public void withException() {
-    assertThrowsWithCause(
+    assertThrows(
         ArithmeticException.class,
         () -> execute(
             sneaked((Integer a, String b) -> (a / 0) == parseInt(b))

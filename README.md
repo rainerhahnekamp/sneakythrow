@@ -6,13 +6,13 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.rainerhahnekamp/sneakythrow/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.rainerhahnekamp/sneakythrow)
 [![Javadocs](https://www.javadoc.io/badge/com.rainerhahnekamp/sneakythrow.svg)](https://www.javadoc.io/doc/com.rainerhahnekamp/sneakythrow)
 
-SneakyThrow is a Java library to ignore checked exceptions. It does that by wrapping an `Exception` into a `RuntimeException`. You can integrate it using maven:
+SneakyThrow is a Java library to ignore checked exceptions. You can integrate it using maven:
 
 ```xml
 <dependency>
   <groupId>com.rainerhahnekamp</groupId>
   <artifactId>sneakythrow</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 

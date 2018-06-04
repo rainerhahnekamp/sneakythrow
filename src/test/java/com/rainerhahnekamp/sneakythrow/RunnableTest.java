@@ -25,8 +25,8 @@
 package com.rainerhahnekamp.sneakythrow;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
-import static com.rainerhahnekamp.sneakythrow.TestHelper.assertThrowsWithCause;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,6 +53,9 @@ public class RunnableTest {
       list.add(5);
     });
 
-    assertThrowsWithCause(UnsupportedOperationException.class, runnable);
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> runnable.run()
+    );
   }
 }
