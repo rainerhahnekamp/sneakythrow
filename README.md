@@ -12,7 +12,7 @@ SneakyThrow is a Java library to ignore checked exceptions. You can integrate it
 <dependency>
   <groupId>com.rainerhahnekamp</groupId>
   <artifactId>sneakythrow</artifactId>
-  <version>1.1.0</version>
+  <version>1.2.0</version>
 </dependency>
 ```
 
