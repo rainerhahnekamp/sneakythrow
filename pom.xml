@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.rainerhahnekamp</groupId>
   <artifactId>sneakythrow</artifactId>
-  <version>1.1.0</version>
+  <version>1.2.0</version>
   <packaging>jar</packaging>
 
   <name>SneakyThrow</name>
@@ -31,8 +31,11 @@
 
   <scm>
     <url>https://github.com/rainerhahnekamp/sneakythrow</url>
-    <connection>scm:git:git@github.com:rainerhahnekamp/sneakythrow.git</connection>
-    <developerConnection>scm:git:git@github.com:rainerhahnekamp/sneakythrhow.git</developerConnection>
+    <connection>scm:git:git@github.com:rainerhahnekamp/sneakythrow.git
+    </connection>
+    <developerConnection>
+      scm:git:git@github.com:rainerhahnekamp/sneakythrhow.git
+    </developerConnection>
   </scm>
 
   <issueManagement>
@@ -114,7 +117,7 @@
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>0.8.1</version>
         <configuration>
-          <rules />
+          <rules/>
         </configuration>
         <executions>
           <execution>
@@ -149,7 +152,8 @@
       <distributionManagement>
         <repository>
           <id>ossrh</id>
-          <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+          <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/
+          </url>
         </repository>
       </distributionManagement>
 
