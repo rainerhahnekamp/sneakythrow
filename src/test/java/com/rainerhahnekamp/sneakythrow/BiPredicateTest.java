@@ -36,19 +36,14 @@ import org.junit.jupiter.api.Test;
 public class BiPredicateTest {
   @Test
   public void withoutException() {
-    assertTrue(execute(
-        sneaked((Integer a, String b) -> a == parseInt(b))
-    ));
+    assertTrue(execute(sneaked((Integer a, String b) -> a == parseInt(b))));
   }
 
   @Test
   public void withException() {
     assertThrows(
         ArithmeticException.class,
-        () -> execute(
-            sneaked((Integer a, String b) -> (a / 0) == parseInt(b))
-        )
-    );
+        () -> execute(sneaked((Integer a, String b) -> (a / 0) == parseInt(b))));
   }
 
   private boolean execute(BiPredicate<Integer, String> biPredicate) {

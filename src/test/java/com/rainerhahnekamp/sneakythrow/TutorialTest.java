@@ -45,10 +45,10 @@ public class TutorialTest {
 
   @Test
   public void streamUsage() {
-    List<URL> urls = Stream
-        .of("https://www.hahnekamp.com", "https://www.austria.info")
-        .map(sneaked(this::createUrl))
-        .collect(Collectors.toList());
+    List<URL> urls =
+        Stream.of("https://www.hahnekamp.com", "https://www.austria.info")
+            .map(sneaked(this::createUrl))
+            .collect(Collectors.toList());
 
     assertEquals("www.hahnekamp.com", urls.get(0).getHost());
     assertEquals("www.austria.info", urls.get(1).getHost());
@@ -57,5 +57,4 @@ public class TutorialTest {
   private URL createUrl(String url) throws MalformedURLException {
     return new URL(url);
   }
-
 }

@@ -40,26 +40,20 @@ import org.junit.jupiter.api.Test;
 class SneakyTest {
   @Test
   public void withoutException() {
-    assertEquals(String.class,
-        sneak(() -> Class.forName("java.lang.String"))
-    );
+    assertEquals(String.class, sneak(() -> Class.forName("java.lang.String")));
 
-    List<URL> urls = Stream
-        .of("www.hahnekamp.com", "www.orf.at")
-        .map(sneaked(this::createUrl))
-        .collect(Collectors.toList());
-
+    List<URL> urls =
+        Stream.of("www.hahnekamp.com", "www.orf.at")
+            .map(sneaked(this::createUrl))
+            .collect(Collectors.toList());
   }
 
   private URL createUrl(String url) throws MalformedURLException {
     return new URL("https://www.hahnekamp.com");
   }
 
-
   @Test
   public void withException() {
-    assertThrows(
-        ClassNotFoundException.class,
-        () -> sneak(() -> Class.forName("java.string")));
+    assertThrows(ClassNotFoundException.class, () -> sneak(() -> Class.forName("java.string")));
   }
 }

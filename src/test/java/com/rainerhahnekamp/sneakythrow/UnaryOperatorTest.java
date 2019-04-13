@@ -35,23 +35,22 @@ import org.junit.jupiter.api.Test;
 public class UnaryOperatorTest {
   @Test
   public void withoutException() {
-    UnaryOperator<String> unaryOperator =
-        sneaked((String name) -> "Hello " + name);
+    UnaryOperator<String> unaryOperator = sneaked((String name) -> "Hello " + name);
     assertEquals("Hello Sneaky", unaryOperator.apply("Sneaky"));
   }
 
   @Test
   public void withException() {
-    UnaryOperator<String> unaryOperator = sneaked((String name) -> {
-      if (name == null) {
-        throw new NullPointerException();
-      }
+    UnaryOperator<String> unaryOperator =
+        sneaked(
+            (String name) -> {
+              if (name == null) {
+                throw new NullPointerException();
+              }
 
-      return "Hello " + name;
-    });
+              return "Hello " + name;
+            });
 
-    assertThrows(
-        NullPointerException.class,
-        () -> unaryOperator.apply(null));
+    assertThrows(NullPointerException.class, () -> unaryOperator.apply(null));
   }
 }

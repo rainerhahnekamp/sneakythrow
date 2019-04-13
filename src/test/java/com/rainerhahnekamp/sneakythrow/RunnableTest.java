@@ -38,9 +38,11 @@ public class RunnableTest {
   @Test
   public void withoutException() {
     List<Integer> list = new ArrayList<Integer>();
-    Runnable runnable = sneaked(() -> {
-      list.add(5);
-    });
+    Runnable runnable =
+        sneaked(
+            () -> {
+              list.add(5);
+            });
     runnable.run();
 
     assertEquals(1, list.size());
@@ -49,13 +51,12 @@ public class RunnableTest {
   @Test
   public void withException() {
     List<Integer> list = Collections.emptyList();
-    Runnable runnable = sneaked(() -> {
-      list.add(5);
-    });
+    Runnable runnable =
+        sneaked(
+            () -> {
+              list.add(5);
+            });
 
-    assertThrows(
-        UnsupportedOperationException.class,
-        () -> runnable.run()
-    );
+    assertThrows(UnsupportedOperationException.class, () -> runnable.run());
   }
 }

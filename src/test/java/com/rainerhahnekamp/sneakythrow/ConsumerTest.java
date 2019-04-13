@@ -38,11 +38,11 @@ import org.junit.jupiter.api.Test;
 public class ConsumerTest {
   @Test
   public void withoutException() {
-    Consumer<List<Integer>> consumer = sneaked(
-        (List<Integer> list) -> {
-          list.add(5);
-        }
-    );
+    Consumer<List<Integer>> consumer =
+        sneaked(
+            (List<Integer> list) -> {
+              list.add(5);
+            });
 
     List<Integer> list = new ArrayList<>();
     consumer.accept(list);
@@ -52,16 +52,13 @@ public class ConsumerTest {
 
   @Test
   public void withException() {
-    Consumer<List<Integer>> consumer = sneaked(
-        (List<Integer> list) -> {
-          list.add(5);
-        }
-    );
+    Consumer<List<Integer>> consumer =
+        sneaked(
+            (List<Integer> list) -> {
+              list.add(5);
+            });
 
     assertThrows(
-        UnsupportedOperationException.class,
-        () -> consumer.accept(Collections.emptyList())
-    );
+        UnsupportedOperationException.class, () -> consumer.accept(Collections.emptyList()));
   }
 }
-

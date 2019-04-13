@@ -36,26 +36,17 @@ import org.junit.jupiter.api.Test;
 public class SneakyBiFunctionTest {
   @Test
   public void withoutException() {
-    assertEquals(500, execute(
-        sneaked((Integer a, String b) -> parseInt(b) * a),
-        5, "100"
-    ));
+    assertEquals(500, execute(sneaked((Integer a, String b) -> parseInt(b) * a), 5, "100"));
   }
 
   @Test
   public void withException() {
     assertThrows(
         NumberFormatException.class,
-        () -> execute(
-            sneaked((Integer a, String b) -> parseInt(b) * a),
-            5, "foo"
-        )
-    );
+        () -> execute(sneaked((Integer a, String b) -> parseInt(b) * a), 5, "foo"));
   }
 
-  private int execute(
-      BiFunction<Integer, String, Integer> biFunction,
-      Integer a, String b) {
+  private int execute(BiFunction<Integer, String, Integer> biFunction, Integer a, String b) {
     return biFunction.apply(a, b);
   }
 }
