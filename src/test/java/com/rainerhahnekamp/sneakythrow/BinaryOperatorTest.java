@@ -28,33 +28,23 @@ import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.function.BinaryOperator;
-
 import org.junit.jupiter.api.Test;
 
-public class BinaryOperatorTest {
+import java.util.function.BinaryOperator;
+
+class BinaryOperatorTest {
   @Test
   public void withoutException() {
-    assertEquals(5, execute(
-        sneaked((Integer a, Integer b) -> a / b),
-        25, 5
-    ));
+    assertEquals(5, execute(sneaked((Integer a, Integer b) -> a / b), 25, 5));
   }
 
   @Test
   public void withException() {
     assertThrows(
-        ArithmeticException.class,
-        () -> execute(
-            sneaked((Integer a, Integer b) -> a / b),
-            25, 0
-        )
-    );
+        ArithmeticException.class, () -> execute(sneaked((Integer a, Integer b) -> a / b), 25, 0));
   }
 
-  private int execute(
-      BinaryOperator<Integer> binaryOperator,
-      Integer a, Integer b) {
+  private int execute(BinaryOperator<Integer> binaryOperator, Integer a, Integer b) {
     return binaryOperator.apply(a, b);
   }
 }

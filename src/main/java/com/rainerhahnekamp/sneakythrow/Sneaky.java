@@ -46,15 +46,19 @@ import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 /**
- * Code that throws checked exceptions can be executed with the static methods of this
- * class without catching or throwing them.
+ * Code that throws checked exceptions can be executed with the static methods of this class without
+ * catching or throwing them.
  *
- * <p>A function or lambda that throws an exception can be executed via
- * {@link #sneak(SneakySupplier)} method. For example:<pre>
+ * <p>A function or lambda that throws an exception can be executed via {@link
+ * #sneak(SneakySupplier)} method. For example:
+ *
+ * <pre>
  *     URL austriaInfo = sneak(() -&gt; new URL("https://www.austria.info");}</pre>
  *
  * <p>If a function should only be wrapped, then the {@link #sneaked(SneakyRunnable)} &amp;
- * overloads can be used:<pre>
+ * overloads can be used:
+ *
+ * <pre>
  *     public void createUrls() {
  *         Stream.of("https://www.austria.info")
  *             .map(sneaked(this::toURL))
@@ -69,187 +73,175 @@ import java.util.function.UnaryOperator;
  * @author Rainer Hahnekamp {@literal <rainer.hahnekamp@gmail.com>}
  */
 public class Sneaky {
-  public static <T> T sneak(SneakySupplier<T> supplier) {
+  public static <T, E extends Exception> T sneak(SneakySupplier<T, E> supplier) {
     return sneaked(supplier).get();
   }
 
   /**
    * Sneaky throws a BiConsumer lambda.
+   *
    * @param biConsumer BiConsumer that can throw an exception
    * @param <T> type of first argument
    * @param <U> type of the second argument
    * @return a BiConsumer as defined in java.util.function
    */
-  public static <T, U> BiConsumer<T, U> sneaked(SneakyBiConsumer<T, U> biConsumer) {
+  public static <T, U, E extends Exception> BiConsumer<T, U> sneaked(
+      SneakyBiConsumer<T, U, E> biConsumer) {
     return (t, u) -> {
-      try {
-        biConsumer.accept(t, u);
-      } catch (Exception exception) {
-        throwUnchecked(exception);
-      }
+      @SuppressWarnings("unchecked")
+      SneakyBiConsumer<T, U, RuntimeException> castedBiConsumer =
+          (SneakyBiConsumer<T, U, RuntimeException>) biConsumer;
+      castedBiConsumer.accept(t, u);
     };
   }
 
   /**
    * Sneaky throws a BiFunction lambda.
+   *
    * @param biFunction BiFunction that can throw an exception
    * @param <T> type of first argument
    * @param <U> type of second argument
    * @param <R> return type of biFunction
    * @return a BiFunction as defined in java.util.function
    */
-  public static <T, U, R> BiFunction<T, U, R> sneaked(SneakyBiFunction<T, U, R> biFunction) {
+  public static <T, U, R, E extends Exception> BiFunction<T, U, R> sneaked(
+      SneakyBiFunction<T, U, R, E> biFunction) {
     return (t, u) -> {
-      try {
-        return biFunction.apply(t, u);
-      } catch (Exception exception) {
-        throwUnchecked(exception);
-        return null;
-      }
+      @SuppressWarnings("unchecked")
+      SneakyBiFunction<T, U, R, RuntimeException> castedBiFunction =
+          (SneakyBiFunction<T, U, R, RuntimeException>) biFunction;
+      return castedBiFunction.apply(t, u);
     };
   }
 
   /**
    * Sneaky throws a BinaryOperator lambda.
+   *
    * @param binaryOperator BinaryOperator that can throw an exception
    * @param <T> type of the two arguments and the return type of the binaryOperator
    * @return a BinaryOperator as defined in java.util.function
    */
-  public static <T> BinaryOperator<T> sneaked(SneakyBinaryOperator<T> binaryOperator) {
+  public static <T, E extends Exception> BinaryOperator<T> sneaked(
+      SneakyBinaryOperator<T, E> binaryOperator) {
     return (t1, t2) -> {
-      try {
-        return binaryOperator.apply(t1, t2);
-      } catch (Exception exception) {
-        throwUnchecked(exception);
-        return null;
-      }
+      @SuppressWarnings("unchecked")
+      SneakyBinaryOperator<T, RuntimeException> castedBinaryOperator =
+          (SneakyBinaryOperator<T, RuntimeException>) binaryOperator;
+      return castedBinaryOperator.apply(t1, t2);
     };
   }
 
   /**
    * Sneaky throws a BiPredicate lambda.
+   *
    * @param biPredicate BiPredicate that can throw an exception
    * @param <T> type of first argument
    * @param <U> type of second argument
    * @return a BiPredicate as defined in java.util.function
    */
-  public static <T, U> BiPredicate<T, U> sneaked(
-      SneakyBiPredicate<T, U> biPredicate) {
+  public static <T, U, E extends Exception> BiPredicate<T, U> sneaked(
+      SneakyBiPredicate<T, U, E> biPredicate) {
     return (t, u) -> {
-      try {
-        return biPredicate.test(t, u);
-      } catch (Exception exception) {
-        throwUnchecked(exception);
-        return false;
-      }
+      @SuppressWarnings("unchecked")
+      SneakyBiPredicate<T, U, RuntimeException> castedBiPredicate =
+          (SneakyBiPredicate<T, U, RuntimeException>) biPredicate;
+      return castedBiPredicate.test(t, u);
     };
   }
 
   /**
    * Sneaky throws a Consumer lambda.
+   *
    * @param consumer Consumer that can throw an exception
    * @param <T> type of first argument
    * @return a Consumer as defined in java.util.function
    */
-  public static <T> Consumer<T> sneaked(SneakyConsumer<T> consumer) {
+  public static <T, E extends Exception> Consumer<T> sneaked(SneakyConsumer<T, E> consumer) {
     return t -> {
-      try {
-        consumer.accept(t);
-      } catch (Exception exception) {
-        throwUnchecked(exception);
-      }
+      @SuppressWarnings("unchecked")
+      SneakyConsumer<T, RuntimeException> casedConsumer =
+          (SneakyConsumer<T, RuntimeException>) consumer;
+      casedConsumer.accept(t);
     };
   }
 
   /**
    * Sneaky throws a Function lambda.
+   *
    * @param function Function that can throw an exception
    * @param <T> type of first argument
    * @param <R> type of the second argument
    * @return a Function as defined in java.util.function
    */
-  public static <T, R> Function<T, R> sneaked(SneakyFunction<T, R> function) {
+  public static <T, R, E extends Exception> Function<T, R> sneaked(
+      SneakyFunction<T, R, E> function) {
     return t -> {
-      try {
-        return function.apply(t);
-      } catch (Exception exception) {
-        throwUnchecked(exception);
-        return null;
-      }
+      @SuppressWarnings("unchecked")
+      SneakyFunction<T, R, RuntimeException> f1 = (SneakyFunction<T, R, RuntimeException>) function;
+      return f1.apply(t);
     };
   }
 
   /**
    * Sneaky throws a Predicate lambda.
+   *
    * @param predicate Predicate that can throw an exception
    * @param <T> type of first argument
    * @return a Predicate as defined in java.util.function
    */
-  public static <T> Predicate<T> sneaked(SneakyPredicate<T> predicate) {
+  public static <T, E extends Exception> Predicate<T> sneaked(SneakyPredicate<T, E> predicate) {
     return t -> {
-      try {
-        return predicate.test(t);
-      } catch (Exception exception) {
-        throwUnchecked(exception);
-        return false;
-      }
+      @SuppressWarnings("unchecked")
+      SneakyPredicate<T, RuntimeException> castedSneakyPredicate =
+          (SneakyPredicate<T, RuntimeException>) predicate;
+      return castedSneakyPredicate.test(t);
     };
   }
 
   /**
    * Sneaky throws a Runnable lambda.
+   *
    * @param runnable Runnable that can throw an exception
    * @return a Runnable as defined in java.util.function
    */
-  public static Runnable sneaked(SneakyRunnable runnable) {
+  public static <E extends Exception> Runnable sneaked(SneakyRunnable<E> runnable) {
     return () -> {
-      try {
-        runnable.run();
-      } catch (Exception exception) {
-        throwUnchecked(exception);
-      }
+      @SuppressWarnings("unchecked")
+      SneakyRunnable<RuntimeException> castedRunnable = (SneakyRunnable<RuntimeException>) runnable;
+      castedRunnable.run();
     };
   }
 
   /**
    * Sneaky throws a Supplier lambda.
+   *
    * @param supplier Supplier that can throw an exception
    * @param <T> type of supplier's return value
    * @return a Supplier as defined in java.util.function
    */
-  public static <T> Supplier<T> sneaked(SneakySupplier<T> supplier) {
+  public static <T, E extends Exception> Supplier<T> sneaked(SneakySupplier<T, E> supplier) {
     return () -> {
-      try {
-        return supplier.get();
-      } catch (Exception exception) {
-        throwUnchecked(exception);
-        return null;
-      }
+      @SuppressWarnings("unchecked")
+      SneakySupplier<T, RuntimeException> castedSupplier =
+          (SneakySupplier<T, RuntimeException>) supplier;
+      return castedSupplier.get();
     };
   }
 
   /**
    * Sneaky throws a UnaryOperator lambda.
+   *
    * @param unaryOperator UnaryOperator that can throw an exception
    * @param <T> type of unaryOperator's argument and returned value
    * @return a UnaryOperator as defined in java.util.function
    */
-  public static <T> UnaryOperator<T> sneaked(SneakyUnaryOperator<T> unaryOperator) {
+  public static <T, E extends Exception> UnaryOperator<T> sneaked(
+      SneakyUnaryOperator<T, E> unaryOperator) {
     return t -> {
-      try {
-        return unaryOperator.apply(t);
-      } catch (Exception exception) {
-        throwUnchecked(exception);
-        return null;
-      }
+      @SuppressWarnings("unchecked")
+      SneakyUnaryOperator<T, RuntimeException> castedUnaryOperator =
+          (SneakyUnaryOperator<T, RuntimeException>) unaryOperator;
+      return castedUnaryOperator.apply(t);
     };
-  }
-
-  /**
-   * as described in https://stackoverflow.com/questions/31316581/a-peculiar-feature-of-exception-type-inference-in-java-8.
-   */
-  @SuppressWarnings("unchecked")
-  private static <T extends Throwable> void throwUnchecked(Throwable t) throws T {
-    throw (T) t;
   }
 }

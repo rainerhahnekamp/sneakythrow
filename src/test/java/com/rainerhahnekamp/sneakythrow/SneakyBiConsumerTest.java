@@ -28,21 +28,19 @@ import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.rainerhahnekamp.sneakythrow.functional.SneakyBiConsumer;
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-import org.junit.jupiter.api.Test;
-
 public class SneakyBiConsumerTest {
   @Test
   public void withoutException() {
     executeAndAssert(
-        sneaked((List<Integer> l, Integer e) -> {
-          l.add(e);
-        })
-    );
+        sneaked((SneakyBiConsumer<List<Integer>, Integer, RuntimeException>) List::add));
   }
 
   @Test
@@ -50,12 +48,12 @@ public class SneakyBiConsumerTest {
     List<Integer> list = Collections.emptyList();
     assertThrows(
         ArithmeticException.class,
-        () -> executeAndAssert(
-            sneaked((List<Integer> l, Integer e) -> {
-              list.add(e / 0);
-            })
-        )
-    );
+        () ->
+            executeAndAssert(
+                sneaked(
+                    (List<Integer> l, Integer e) -> {
+                      list.add(e / 0);
+                    })));
   }
 
   private void executeAndAssert(BiConsumer<List<Integer>, Integer> consumer) {

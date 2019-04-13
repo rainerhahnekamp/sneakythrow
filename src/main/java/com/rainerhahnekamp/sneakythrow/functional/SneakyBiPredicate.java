@@ -25,6 +25,6 @@
 package com.rainerhahnekamp.sneakythrow.functional;
 
 @FunctionalInterface
-public interface SneakyBiPredicate<T, U> {
-  boolean test(T t, U u) throws Exception;
+public interface SneakyBiPredicate<T, U, E extends Exception> {
+  boolean test(T t, U u) throws E;
 }

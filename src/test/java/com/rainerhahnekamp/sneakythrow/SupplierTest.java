@@ -28,23 +28,20 @@ import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.function.Supplier;
-
 import org.junit.jupiter.api.Test;
+
+import java.util.function.Supplier;
 
 public class SupplierTest {
   @Test
   public void withoutException() {
     Supplier<Integer> supplier = sneaked(() -> 5);
-    assertEquals(5, (int)supplier.get());
+    assertEquals(5, (int) supplier.get());
   }
 
   @Test
   public void withException() {
     Supplier<Integer> supplier = sneaked(() -> 5 / 0);
-    assertThrows(
-        ArithmeticException.class,
-        () -> supplier.get()
-    );
+    assertThrows(ArithmeticException.class, supplier::get);
   }
 }

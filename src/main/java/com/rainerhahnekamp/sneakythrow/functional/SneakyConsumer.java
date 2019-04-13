@@ -25,6 +25,6 @@
 package com.rainerhahnekamp.sneakythrow.functional;
 
 @FunctionalInterface
-public interface SneakyConsumer<T> {
-  void accept(T t) throws Exception;
+public interface SneakyConsumer<T, E extends Exception> {
+  void accept(T t) throws E;
 }

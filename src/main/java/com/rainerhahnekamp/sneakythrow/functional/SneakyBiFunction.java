@@ -25,6 +25,6 @@
 package com.rainerhahnekamp.sneakythrow.functional;
 
 @FunctionalInterface
-public interface SneakyBiFunction<T, U, R> {
-  R apply(T t, U u) throws Exception;
+public interface SneakyBiFunction<T, U, R, E extends Exception> {
+  R apply(T t, U u) throws E;
 }

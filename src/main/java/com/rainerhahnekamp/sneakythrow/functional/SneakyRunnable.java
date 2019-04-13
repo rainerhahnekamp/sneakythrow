@@ -25,6 +25,6 @@
 package com.rainerhahnekamp.sneakythrow.functional;
 
 @FunctionalInterface
-public interface SneakyRunnable {
-  void run() throws Exception;
+public interface SneakyRunnable<E extends Exception> {
+  void run() throws E;
 }

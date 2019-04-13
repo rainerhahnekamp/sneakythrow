@@ -29,26 +29,35 @@ import static java.lang.Integer.parseInt;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.function.Function;
-
 import org.junit.jupiter.api.Test;
 
-public class FunctionTest {
+import java.util.function.Function;
+
+class FunctionTest {
   @Test
-  public void withoutException() {
-    Function<String, Integer> function =
-        sneaked((String b) -> parseInt(b) * 2);
-    assertEquals(10, (int)function.apply("5"));
+  void withoutException() {
+    Function<String, Integer> function = sneaked((String b) -> parseInt(b) * 2);
+    assertEquals(10, (int) function.apply("5"));
   }
 
   @Test
-  public void withException() {
-    Function<String, Integer> function =
-        sneaked((String b) -> parseInt(b) * 2);
+  void withRuntimeException() {
+    Function<String, Integer> function = sneaked((String b) -> parseInt(b) * 2);
 
-    assertThrows(
-        NumberFormatException.class,
-        () -> function.apply("foo")
-    );
+    assertThrows(NumberFormatException.class, () -> function.apply("foo"));
+  }
+
+  @Test
+  void withException() {
+    Function<Integer, Integer> function = sneaked(this::exceptionOn1);
+    assertThrows(Exception.class, () -> function.apply(1));
+  }
+
+  private int exceptionOn1(int a) throws Exception {
+    if (a == 1) {
+      throw new Exception("not working");
+    } else {
+      return a;
+    }
   }
 }

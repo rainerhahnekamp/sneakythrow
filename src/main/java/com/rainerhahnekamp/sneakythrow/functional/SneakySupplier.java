@@ -25,6 +25,6 @@
 package com.rainerhahnekamp.sneakythrow.functional;
 
 @FunctionalInterface
-public interface SneakySupplier<T> {
-  T get() throws Exception;
+public interface SneakySupplier<T, E extends Exception> {
+  T get() throws E;
 }
