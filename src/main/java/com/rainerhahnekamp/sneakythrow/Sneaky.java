@@ -73,6 +73,13 @@ import java.util.function.UnaryOperator;
  * @author Rainer Hahnekamp {@literal <rainer.hahnekamp@gmail.com>}
  */
 public class Sneaky {
+  /**
+   * returns a value from a lambda (Supplier) that can potentially throw an exception.
+   *
+   * @param supplier Supplier that can throw an exception
+   * @param <T> type of supplier's return value
+   * @return a Supplier as defined in java.util.function
+   */
   public static <T, E extends Exception> T sneak(SneakySupplier<T, E> supplier) {
     return sneaked(supplier).get();
   }
